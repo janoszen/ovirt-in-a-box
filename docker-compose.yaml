@@ -1,0 +1,56 @@
+version: '3.2'
+services:
+  ovirt:
+    build: .
+    hostname: ovirt
+    domainname: example.com
+    tty: true
+    privileged: true
+    tmpfs:
+    - /run
+    - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    cap_add:
+    - SYS_ADMIN
+    environment:
+    - container=docker
+    ports:
+    - 80:80
+    - 443:443
+  dwhdb:
+    build: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=ovirt
+      - POSTGRES_PASSWORD=ovirt
+      - POSTGRES_DB=ovirt
+    command:
+      - -c
+      - autovacuum_vacuum_scale_factor=0.01
+      - -c
+      - autovacuum_analyze_scale_factor=0.075
+      - -c
+      - autovacuum_max_workers=6
+      - -c
+      - work_mem=8192
+      - -c
+      - max_connections=150
+  enginedb:
+    build: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=ovirt
+      - POSTGRES_PASSWORD=ovirt
+      - POSTGRES_DB=ovirt
+    command:
+      - -c
+      - autovacuum_vacuum_scale_factor=0.01
+      - -c
+      - autovacuum_analyze_scale_factor=0.075
+      - -c
+      - autovacuum_max_workers=6
+      - -c
+      - work_mem=8192
+      - -c
+      - max_connections=150
