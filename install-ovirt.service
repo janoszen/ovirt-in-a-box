@@ -1,0 +1,8 @@
+[Unit]
+Description=Install oVirt
+
+[Service]
+ExecStart=/install-ovirt.sh
+
+[Install]
+WantedBy=multi-user.target

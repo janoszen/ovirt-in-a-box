@@ -12,6 +12,9 @@ RUN yum module -y enable postgresql:12
 RUN yum update -y
 RUN yum install -y ovirt-engine
 ADD answers.txt /answers.txt
-ADD init.sh /init.sh
-RUN chmod +x /init.sh
-CMD ["/init.sh"]
+ADD install-ovirt.sh /install-ovirt.sh
+RUN chmod +x /install-ovirt.sh
+ADD /install-ovirt.service /etc/systemd/system
+RUN systemctl enable install-ovirt
+RUN systemctl disable kdump.service
+CMD ["/sbin/init"]
