@@ -18,3 +18,4 @@ ADD /install-ovirt.service /etc/systemd/system
 RUN systemctl enable install-ovirt
 RUN systemctl disable kdump.service
 CMD ["/sbin/init"]
+HEALTHCHECK CMD curl --fail http://localhost || exit 1
