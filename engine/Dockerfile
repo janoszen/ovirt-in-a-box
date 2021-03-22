@@ -17,5 +17,7 @@ RUN chmod +x /install-ovirt.sh
 ADD /install-ovirt.service /etc/systemd/system
 RUN systemctl enable install-ovirt
 RUN systemctl disable kdump.service
+RUN systemctl disable auditd.service
+RUN systemctl disable systemd-hostnamed.service
 CMD ["/sbin/init"]
 HEALTHCHECK --start-period=600s CMD curl --fail http://localhost || exit 1
